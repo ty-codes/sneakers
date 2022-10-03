@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "Kumbh Sans";
+  src: url(fonts/KumbhSans-Regular.woff);
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: hsl(0, 0%, 100%);
+  padding-bottom: 20px;
+  font-family: "Kumbh Sans";
+
+}
+
+.dark_text {
+  color: hsl(0, 0%, 0%);
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+}

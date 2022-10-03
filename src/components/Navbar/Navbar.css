@@ -1,0 +1,115 @@
+/*NAV*/
+nav {
+    top: 0;
+    height: 9vh;
+    width: 80vw;
+    background-color: #fff;
+    display: flex;
+    position: fixed;
+    z-index: 10;
+}
+
+#navbar {
+    justify-content: space-between;
+}
+
+.sneakers {
+    font-weight: 900;
+    font-size: 2.7em;
+    text-transform: lowercase;
+    color: hsl(220, 13%, 13%);
+}
+
+/*Styling Links*/
+.nav-links {
+    display: flex;
+    list-style: none;
+    width: 88vw;
+    padding: 0 0.7vw;
+    justify-content: space-evenly;
+    align-items: center;
+    text-transform: capitalize;
+}
+
+.nav-links li a {
+    color: hsl(219, 9%, 45%);
+    text-decoration: none;
+    margin: 0;
+}
+
+.nav-links li a:hover {
+    padding-bottom: 1.9em;
+    border-bottom: 5.5px solid hsl(26, 100%, 55%);
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.nav-links li a::before {
+    content: "";
+    display: block;
+    /* height: 1px; */
+    width: 0%;
+    background-color: white;
+    position: absolute;
+    transition: all ease-in-out 250ms;
+    margin: 0 0 0 10%;
+}
+
+.nav-links li a:hover::before {
+    width: 80%;
+}
+
+
+/*Styling Hamburger Icon*/
+.hamburger div {
+    width: 30px;
+    height: 3px;
+    background: #f2f5f7;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+.hamburger {
+    display: none;
+}
+
+/*Animating Hamburger Icon on Click*/
+.toggle .line1 {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.toggle .line2 {
+    transition: all 0.7s ease;
+    width: 0;
+}
+
+.toggle .line3 {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* right aection of nav */
+.right_nav {
+    display: flex;
+    margin-left: 10em;
+    margin-top: 1.6em;
+}
+
+.right_nav img {
+    margin-right: 2em;
+}
+
+.cart {
+    margin-top: 0.5em;
+}
+
+.avatar {
+    width: 3.5em;
+    height: 3.5em;
+    margin-top: -0.5em;
+}
+.avatar:hover {
+    border: 2.7px solid hsl(26, 100%, 55%);
+    border-radius: 50%;
+}
