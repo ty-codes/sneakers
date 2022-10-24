@@ -123,15 +123,21 @@ nav {
 }
 
 .no_items {
-    padding: 6em 0;
+    padding-top: 4em;
     text-align: center;
+    
+}
+.no_items span {
+    color: hsl(219, 9%, 45%);
+    font-weight: 800;
+    font-size: 1.2em;
 }
 
 .item_wrap {
     display: flex;
 }
 .item_wrap p {
-    font-size: 1em;
+    font-size: 1.2em;
     color: hsl(219, 9%, 45%);
 }
 .item_name {
@@ -153,4 +159,71 @@ nav {
     border-radius: 8px;
 margin-left:1em;
 margin-bottom: 1.5em;
+}
+
+.total {
+    margin-left: 0.6em;
+    font-weight: 800;
+color: hsl(220, 13%, 13%);
+}
+.blank {
+    display: none;
+}
+.delete_icon {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+/* .ReactModal__Content, .ReactModal__Content--after-open {
+ width: 27% !important;
+ overflow-y: hidden !important;
+} */
+
+/* mobile */
+@media (max-width: 1500px) {
+    .ReactModal__Content, .ReactModal__Content--after-open {
+        width: 31% !important;
+       }
+}
+@media (max-width: 1100px) {
+    .ReactModal__Content, .ReactModal__Content--after-open {
+        width: 37% !important;
+       }
+}
+@media (max-width: 940px) {
+    .ReactModal__Content, .ReactModal__Content--after-open {
+        width: 43% !important;
+        left: 75% !important;
+       }
+       .item_wrap p {
+        font-size: 1em;
+       }
+       .item_btn {
+        padding: 0.9em;
+       }
+}
+@media (max-width: 600px) {
+    .cart_icon {
+        width: 4em;
+    }
+    .ReactModal__Content, .ReactModal__Content--after-open {
+        width: 50% !important;
+        left: 70% !important;
+       }
+}
+@media (max-width: 500px) {
+    .cart_icon {
+        width: 6em;
+    }
+    .ReactModal__Content, .ReactModal__Content--after-open {
+        width: 95% !important;
+        left: 50% !important;
+       }
+       .item_wrap p {
+        font-size: 1.5em;
+       }
+       #cart_title {
+        font-size: 2.2em;
+        margin: 0.3em 0 0 0;
+    }
 }

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import cart_icon from '../../images/icon-cart.svg';
+import delete_icon from '../../images/icon-delete.svg';
 import avatar from '../../images/image-avatar.png';
 import './Navbar.css';
 import Modal from 'react-modal';
@@ -7,7 +8,7 @@ import Modal from 'react-modal';
 const customStyles = {
     content: {
         top: '23%',
-        width: '23.5%',
+        width: '27%',
         height: '300px',
         left: '80%',
         right: 'auto',
@@ -22,11 +23,13 @@ const customStyles = {
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root');
 
-const Navbar = ({ noOfItems, cart, itemList, setItemList }) => {
+const Navbar = ({ totalItems, setTotalItems, cart, itemList, setItemList, setCart }) => {
     let subtitle;
     const [modalIsOpen, setIsOpen] = useState(false);
-    console.log(cart.length)
-    console.log(typeof(cart.length))
+
+    useEffect(() => {
+        return;
+    }, [totalItems])
 
     function openModal() {
         setIsOpen(true);
@@ -40,6 +43,26 @@ const Navbar = ({ noOfItems, cart, itemList, setItemList }) => {
     function closeModal() {
         setIsOpen(false);
     }
+    const calcTotal = (item) => {
+        var total = item.noOfItems * item.price.slice(1, cart[0].price.length);
+        return total.toFixed(2);
+    };
+
+    function updateQuantity(qty) {
+        setTotalItems(qty)
+
+    }
+    function deleteFromCart(key, qty) {
+        cart.splice(key, 1)
+        setCart(cart)
+        itemList.splice(key, 1)
+
+        itemList = [...itemList]
+        setItemList(itemList)
+       
+        let updated_qty = Number(totalItems) - Number(qty);
+        updateQuantity(updated_qty);
+    };
 
     return (
         <>
@@ -72,41 +95,50 @@ const Navbar = ({ noOfItems, cart, itemList, setItemList }) => {
                             <hr />
                             {/* <button onClick={closeModal}>close</button> */}
                             <div>
-                                {(cart.length >= 0) 
-                                ? (
-                                    <div className='cart_wrap'>
-                                        {
-                                            cart.map((item) => (
-                                                <div className='wrapp'>
-                                                    <div className='item_wrap'>
-                                                        <img className='cart_icon' src={item.image} />
-                                                        <div>
-                                                            <p className='item_name'>{item.name}</p>
-                                                            <p className='item_price'>{item.noOfItems}*{item.price}</p>
+                                {
+                                    (cart.length > 0)
+                                        ? (
+                                            <div className='cart_wrap'>
+                                                {
+                                                    cart.map((item, key) => (
+                                                        <div key={key} id={`product_${key}`} className='wrapp'>
+
+
+                                                            <div key={key} className='item_wrap'>
+                                                                <img key={`${key}_image`} className='cart_icon' src={item.image} />
+                                                                <div>
+                                                                    <p key={`${key}_namme`} className='item_name' id='item_name'>{item.name}</p>
+                                                                    <p key={`${key}_price`} className='item_price'>{item.noOfItems}X{item.price}
+                                                                        <span key={`${key}_total`} className='total'>
+                                                                            ${calcTotal(item)}
+                                                                        </span>
+                                                                        <img className='delete_icon' onClick={() => deleteFromCart(key, item.noOfItems)} src={delete_icon} alt='trash' />
+                                                                    </p>
+
+                                                                </div>
+
+                                                            </div>
+                                                            <button className='item_btn'>Checkout</button>
+
                                                         </div>
 
-                                                    </div>
-                                                    <button className='item_btn'>Checkout</button>
 
-                                                </div>
+                                                    )
 
-
-                                            )
-
-                                            )
-                                        }
-                                    </div>
-                                )
-                                : (
-                                    <div className='no_items'>
-                                        Your cart is empty
-                                    </div>
-                                )
+                                                    )
+                                                }
+                                            </div>
+                                        )
+                                        : (
+                                            <div className='no_items'>
+                                                <span>Your cart is empty</span>
+                                            </div>
+                                        )
                                 }
                             </div>
 
                         </Modal>
-                        <span id="badge">{noOfItems}</span></span>
+                        <span id="badge" style={{display: !totalItems ? "none" : null}}>{totalItems}</span></span>
                     <span><img className="avatar" src={avatar} alt="avatar" /></span>
                 </ul>
 

@@ -15,8 +15,8 @@ const data = [
             require('../../images/image-product-3-thumbnail.jpg'),
             require('../../images/image-product-4-thumbnail.jpg')
         ],
-        old_price: 250,
-        price: 280,
+        old_price: 290,
+        price: 250,
         cart: []
         
     },
@@ -55,7 +55,7 @@ const data = [
         require("../../images/alphafly-tb-4.webp"),
          ],
          old_price: 269.95,
-        price: 269.95,
+        price: 299.99,
         cart: []
 
     }

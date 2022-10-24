@@ -6,7 +6,7 @@ import minus from "../../images/icon-minus.svg";
 import plus from "../../images/icon-plus.svg";
 import './Products.css';
 
-const Products = ({ products, cart, setCart, setItems, itemList,setItemList }) => {
+const Products = ({ products, cart, setCart, setItems, cartNames, setCartNames, itemList, setItemList }) => {
     const ref = useRef(null)
     var number = 0;
 
@@ -19,9 +19,9 @@ const Products = ({ products, cart, setCart, setItems, itemList,setItemList }) =
 
     const calcPromo = (old_price, new_price) => {
         if (new_price < old_price) {
-            let promo = new_price / old_price * 100;
+            let promo = ((old_price-new_price)/old_price) * 100;
             return (
-                <p className="promo">-{promo}%</p>
+                <p className="promo">-{promo.toFixed(0)}%</p>
             );
         } else if (new_price > old_price) {
             // console.log(document.getElementsByClassName('old-price'));
@@ -36,34 +36,60 @@ const Products = ({ products, cart, setCart, setItems, itemList,setItemList }) =
         }
     }
     const addToList = (items) => {
-        
+
         setItemList((current) => [...current, Number(items)])
-        
+
     }
+    // add new product to cat
     const addToCart = (key) => {
         var noOfItems = document.getElementById(`num${key}`).innerText;
         var price = document.getElementById(`${key}_price`).innerText;
         var name = document.getElementById(`${key}_name`).innerText;
         var image = document.getElementById(`${key}_image`).attributes.src.value;
 
-        if(noOfItems> 0) {
+        if (noOfItems > 0) {
             
-            setCart(current => [...current, {
-                id: key,
-                noOfItems: noOfItems,
-                price: price,
-                name: name,
-                image: image
-            }])
-        setItems(noOfItems)
-        addToList(noOfItems)
-        }
+            // adds name of product to names in cart if name not in cartnames already
+            if (cartNames.includes(name, 0) === false) {
 
-        
+                setCartNames(current => [...current, name])
+
+                // adds product details to cart
+                setCart(current => [...current, {
+                    id: key,
+                    noOfItems: noOfItems,
+                    price: price,
+                    name: name,
+                    image: image
+                }])
+                setItems(noOfItems)
+                addToList(noOfItems)
+
+            } else if (cartNames.includes(name)) {
+               var myNewObj = {
+                id: key,
+                    noOfItems: noOfItems,
+                    price: price,
+                    name: name,
+                    image: image
+               }
+            //    removes the product object and replaces it with updated product details at its index
+                cart.splice(key, 1, myNewObj)
+                setCart(cart)
+
+                // updates the product quantity list
+                itemList.splice(key, 1, Number(noOfItems))
+                // needs to creatae a new array using a non-mutative
+                // appending spread method. This allows the useEffect
+                // register the change.
+               itemList = [...itemList]
+               setItemList(itemList)
+        }
+}
     };
 
 
-
+    // opens the lightbox using the key of the product
     const openBox = (key) => {
         // console.log(key)
 
@@ -121,7 +147,7 @@ const Products = ({ products, cart, setCart, setItems, itemList,setItemList }) =
                                             (
                                                 gallery.thumbnails.map((thumbnail, key) => (
                                                     <>
-                                                        <img key={key} id={key} src={thumbnail} className={(key === 0) ? 'first_img thumbnail hover-shadow' : 'thumbnail hover-shadow'} alt={key + '_alt'} />
+                                                        <img key={key} id={key} style={{border:  gallery.thumbnails[photoIndex]===thumbnail ? '3px solid hsl(26, 100%, 55%)' : null}} src={thumbnail} className={(key === 0) ? 'first_img thumbnail hover-shadow' : 'thumbnail hover-shadow'} alt={key + '_alt'} />
                                                     </>
 
                                                 ))
@@ -137,8 +163,9 @@ const Products = ({ products, cart, setCart, setItems, itemList,setItemList }) =
                             />
                         )}
 
+                        <div className='details_wrap'>
 
-                        <div className="details" >
+                            <div className="details" >
                             <h2 className="company" id={`${key}_description`}>{product.company}</h2>
                             <h1 className="name" id={`${key}_name`}>{product.name}</h1>
                             <p className="desc">{product.description}</p>
@@ -161,6 +188,8 @@ const Products = ({ products, cart, setCart, setItems, itemList,setItemList }) =
                                 </div>
                             </div>
                         </div>
+                        </div>
+                        
                     </div>
                 )
                 )
